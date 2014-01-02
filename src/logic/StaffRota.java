@@ -67,7 +67,6 @@ public class StaffRota{
             }
         }
       
- 
         // search for a solution and print results 
         //create a search (specify search methods searched in data space) , this is to specify how to perform labeling
         Search<IntVar> search = new DepthFirstSearch<IntVar>(); 
