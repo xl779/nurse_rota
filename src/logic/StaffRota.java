@@ -26,8 +26,9 @@ public class StaffRota{
         /* define finite domain variables*/
         // v[i][j] i means the nurse number j means the work shift number 
         //in the code v[i][j] needs to be transformed to v[21*m+n] because the jacop search only supports one dimension array  
-        int i= 10;
-        int j= 21;
+        int i= 10;//means the rota is for ten nurses 
+        int j= 21;//21 means there are 21 work slots in a week 
+        
         //define all the varaibles in the constraint programming problem
         IntVar[] v = new IntVar[i*j];
         
@@ -38,21 +39,22 @@ public class StaffRota{
             for(int n=0;n<j;n++){
                 //vm-n indicates value v 
                 //intvar's value is either 0 or 1 
-                v[21*m+n]=new IntVar(store,"v"+m+"-"+n,0,1);
+                v[j*m+n]=new IntVar(store,"v"+m+"-"+n,0,1);
             
             }
+            
         }
       
 
         //define constraints   
         /*constraint 1
          *the time between anyone's 2 consecutive shifts(C=the minimum time to rest) should be at least 2 work shifts 
-         */
+        */
         
         //sum1 indicates <=1
         IntVar sum1=new IntVar(store,"s",0,1);
         //construct array looply to implement Vij+Vij+1+Vij+2<=1
-        IntVar[] constraint1=new IntVar[3];
+        //IntVar[] constraint1=new IntVar[3];
        
         for(int m=0;m<i;m++){
             
@@ -60,11 +62,14 @@ public class StaffRota{
             for(int n=0;n<j-2;n++){
                 //initialisation for constraint1
     
-                //impose the constraint
+                //impose all the constraints 
+                //the constraint specify that the sum of any 3 consecutive shifts is equal to or less than 1
+                //for every nurse its 3 consecutive shifts can't be more than 1 
                 store.impose(new Sum(new IntVar[]{v[21*m+n],v[21*m+n+1],v[21*m+n+2]},sum1));
             }
         }
-      
+       
+        
         
         
         /*constraint 2 
@@ -93,22 +98,24 @@ public class StaffRota{
         }
         */
              //n2 means number 2 
-        IntVar n2=new IntVar(store,"n",2,2);
+        IntVar n2=new IntVar(store,"n",3,3);
         //create an array to store all the nurses for a single work shift 
         //i means the number of the nurses
-        IntVar[] constraint2=new IntVar[i];
+        //IntVar[] constraint2=new IntVar[i];
         
         //impose the constraints looply
-        //n indicates the work shift 
-        for(int n=0;n<j;n++){
+        //p indicates the work shift
+        //当维数很大 不好分析时 取几个小的参数来分析
+        for(int p=0;p<j;p++){
             
             //m means the nurse number  
             //for(int m=0;m<i;m++){
                 //initialisation for constraint2
-                store.impose(new Sum(new IntVar[]{v[n],v[21*1+n],v[21*2+n],
-                v[21*3+n],v[21*4+n],v[21*5+n],
-                v[21*6+n],v[21*7+n],v[21*8+n],
-                v[21*9+n]
+                //the reason why i can't find a solution is on the definition of the constraints 
+                store.impose(new Sum(new IntVar[]{v[p],v[21*1+p],v[21*2+p],
+                v[21*3+p],v[21*4+p],v[21*5+p],
+                v[21*6+p],v[21*7+p],v[21*8+p],
+                v[21*9+p]
                 },n2));
            
            // }
