@@ -50,7 +50,7 @@ public class StaffRota{
         /*constraint 1
          *the time between anyone's 2 consecutive shifts(C=the minimum time to rest) should be at least 2 work shifts 
         */
-        
+      
         //sum1 indicates <=1
         IntVar sum1=new IntVar(store,"s",0,1);
         //construct array looply to implement Vij+Vij+1+Vij+2<=1
@@ -75,10 +75,11 @@ public class StaffRota{
         /*constraint 2 
          * there must be 2 nurses working in a specific work shift 
          * so it's sum(v[i][1]) for all i = 2
-         * 
+         */
          
         //n2 means number 2 
         IntVar n2=new IntVar(store,"n",2,2);
+        /*
         //create an array to store all the nurses for a single work shift 
         //i means the number of the nurses
         IntVar[] constraint2=new IntVar[i];
@@ -98,7 +99,51 @@ public class StaffRota{
         }
         */
              //n2 means number 2 
-        IntVar n2=new IntVar(store,"n",3,3);
+       /* IntVar n2=new IntVar(store,"n",0,10);
+        
+        IntVar[] work1=new IntVar[10];
+        work1[0]=v[0];
+        work1[1]=v[21];
+        work1[2]=v[42];
+        work1[3]=v[63];
+        work1[4]=v[84];
+        work1[5]=v[105];
+        work1[6]=v[126];
+        work1[7]=v[147];
+        work1[8]=v[168];
+        work1[9]=v[189];
+        
+        store.impose(new Sum(work1,n2));
+        
+        
+        IntVar[] work2=new IntVar[10];
+        work2[0]=v[1];
+        work2[1]=v[22];
+        work2[2]=v[43];
+        work2[3]=v[64];
+        work2[4]=v[85];
+        work2[5]=v[106];
+        work2[6]=v[127];
+        work2[7]=v[148];
+        work2[8]=v[169];
+        work2[9]=v[190];
+        
+        store.impose(new Sum(work2,n2));
+        
+        IntVar[] work3=new IntVar[10];
+        work3[0]=v[2];
+        work3[1]=v[23];
+        work3[2]=v[44];
+        work3[3]=v[65];
+        work3[4]=v[86];
+        work3[5]=v[107];
+        work3[6]=v[128];
+        work3[7]=v[149];
+        work3[8]=v[170];
+        work3[9]=v[191];
+        
+        store.impose(new Sum(work3,n2));
+        */
         //create an array to store all the nurses for a single work shift 
         //i means the number of the nurses
         //IntVar[] constraint2=new IntVar[i];
@@ -112,17 +157,13 @@ public class StaffRota{
             //for(int m=0;m<i;m++){
                 //initialisation for constraint2
                 //the reason why i can't find a solution is on the definition of the constraints 
-                store.impose(new Sum(new IntVar[]{v[p],v[21*1+p],v[21*2+p],
-                v[21*3+p],v[21*4+p],v[21*5+p],
-                v[21*6+p],v[21*7+p],v[21*8+p],
-                v[21*9+p]
-                },n2));
+                store.impose(new XeqY(v[p]+v[21*1+p]+v[21*2+p]+v[21*3+p]+v[21*4+p]+v[21*5+p]+v[21*6+p]+v[21*7+p]+v[21*8+p]+v[21*9+p],n2));
            
            // }
             //impose the constraint
                
         }
-        
+       
         
         // search for a solution and print results 
         //create a search (specify search methods searched in data space) , this is to specify how to perform labeling
