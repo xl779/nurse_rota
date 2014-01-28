@@ -87,6 +87,7 @@ public class StaffRota{
          *
          */ 
         
+        
         //impose the constraints looply
         //p indicates the work shift 
         for(int p=0;p<j;p++){
