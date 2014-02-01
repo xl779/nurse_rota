@@ -4,6 +4,27 @@
  */
 package my.nurserota;
 
+import java.awt.Color;
+import org.swiftgantt.Config;
+import org.swiftgantt.GanttChart;
+import org.swiftgantt.common.Time;
+import org.swiftgantt.model.GanttModel;
+import org.swiftgantt.model.Task;
+import org.swiftgantt.ui.TimeUnit;
+import JaCoP.core.*; 
+import JaCoP.constraints.*; 
+import JaCoP.search.*; 
+import java.awt.Color;
+import org.swiftgantt.*;
+import org.swiftgantt.ui.TimeUnit;
+import org.swiftgantt.model.*;
+import org.swiftgantt.common.*;
+import java.util.*;
+import javax.swing.JList;
+//import StaffRota class from logic package and find a solution for rota 
+//in order to use staffRota you have to design a lot of methods
+import logic.StaffRota;
+
 /**
  *
  * @author xl779
@@ -15,8 +36,11 @@ public class NurseRotaUI extends javax.swing.JFrame {
      */
     public NurseRotaUI() {
         initComponents();
+        
+          
     }
 
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -25,7 +49,50 @@ public class NurseRotaUI extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
+		
+		
+		
+		//generate gantt chart 
+        //construct the main class 
+        GanttChart gantt=new GanttChart();
+        //set time unit 
+        gantt.setTimeUnit(TimeUnit.Hour);
+        //decorate the gantt chart 
+        Config config=gantt.getConfig();
+        config.setWorkingTimeBackColor(Color.yellow);
+        config.setTimeUnitWidth(20);//set width for time unit 
+        config.setWorkingHoursSpanOfDay(new int[]{1,3});
+        //set true if you want to show accurate task bar
+        config.setAllowAccurateTaskBar(true);
+        
+        //cretae data model "GanttModel" for Gantt chart, all tasks information you want to display in gantt chart component are via the model class
+        GanttModel model =new GanttModel();
+        //set start time and end time for schedule
+        model.setKickoffTime(new Time(2014,1,2,0,0));
+        model.setDeadline(new Time(2014,1,7,0,0));
+        
+        //create tasks 
+        Task task1=new Task("task 1",new Time(2014,1,2,2,0),new Time(2014,1,2,3,0));
+		Task task2=new Task("task 1",new Time(2014,1,3,2,0),new Time(2014,1,3,3,0));
+		Task task3=new Task("task 1",new Time(2014,1,2,2,0),new Time(2014,1,2,3,0));
+		Task task4=new Task("task 1",new Time(2014,1,5,2,0),new Time(2014,1,5,3,0));
+		Task task5=new Task("task 1",new Time(2014,1,2,2,0),new Time(2014,1,2,3,0));
+		Task task6=new Task("task 1",new Time(2014,1,7,2,0),new Time(2014,1,7,3,0));
+		Task task7=new Task("task 1",new Time(2014,1,8,2,0),new Time(2014,1,8,3,0));
+        //add tasks;
+        model.addTask(task1);
+		model.addTask(task2);
+		model.addTask(task3);
+		model.addTask(task4);
+		model.addTask(task5);
+		model.addTask(task6);
+		model.addTask(task7);
+	
+        gantt.setModel(model);
+		
+		//create the ArrayList to store the nurse data
+		nurse_data=new ArrayList();
+        
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -125,7 +192,7 @@ public class NurseRotaUI extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(jButton1))
                                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 114, Short.MAX_VALUE)))
+                        .addGap(0, 418, Short.MAX_VALUE)))
                 .addContainerGap())
             .addComponent(jSeparator4)
         );
@@ -272,7 +339,7 @@ public class NurseRotaUI extends javax.swing.JFrame {
                                 .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jButton5)))
-                        .addGap(0, 53, Short.MAX_VALUE)))
+                        .addGap(0, 357, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -331,14 +398,14 @@ public class NurseRotaUI extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 436, Short.MAX_VALUE)
+            .addGap(0, 740, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 496, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Generate Roster", jPanel3);
+        jTabbedPane1.addTab("Generate Roster", gantt);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText(" Nurse Roster 1.0");
@@ -352,7 +419,7 @@ public class NurseRotaUI extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 745, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -368,10 +435,19 @@ public class NurseRotaUI extends javax.swing.JFrame {
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
+        
+        
+        
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        //get the content of JtextField and assign it to Jlist
+        final String nurse_id=jTextField1.getText();
+        final String nurse_name=jTextField2.getText();
+        //String[] newdata = {"Nurse ID: " + nurse_id + " Name: "+ nurse_name};
+        nurse_data.add("Nurse ID: " + nurse_id + " Name: "+ nurse_name);
+        jList1.setListData(nurse_data.toArray());
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField10ActionPerformed
@@ -419,6 +495,9 @@ public class NurseRotaUI extends javax.swing.JFrame {
                 new NurseRotaUI().setVisible(true);
             }
         });
+        
+        
+        
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -465,4 +544,9 @@ public class NurseRotaUI extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
     // End of variables declaration//GEN-END:variables
+	
+	//create an arraylist to store the nurses
+	private ArrayList nurse_data;
+    
+
 }
