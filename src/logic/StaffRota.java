@@ -1,3 +1,4 @@
+
 /*
  * This is the main class of the staff rota 
  * the algorithm adds all the constraints and find a solution for the nurse rota
@@ -14,6 +15,13 @@ package logic;
 import JaCoP.core.*; 
 import JaCoP.constraints.*; 
 import JaCoP.search.*; 
+import java.awt.Color;
+import org.swiftgantt.*;
+import org.swiftgantt.ui.TimeUnit;
+import org.swiftgantt.model.*;
+import org.swiftgantt.common.*;
+import java.util.*;
+
 
 /**
  *definition of the class StaffRota 
@@ -153,6 +161,33 @@ public class StaffRota{
         else 
             System.out.println("*** No"); 
         
+        
+        
+        
+       //generate gantt chart 
+       //construct the main class 
+        GanttChart gantt=new GanttChart();
+        //set time unit 
+        gantt.setTimeUnit(TimeUnit.Hour);
+        //decorate the gantt chart 
+        Config config=gantt.getConfig();
+        config.setWorkingTimeBackColor(Color.yellow);
+        config.setTimeUnitWidth(50);//set width for time unit 
+        config.setWorkingHoursSpanOfDay(new int[]{0,23});
+        //set true if you want to show accurate task bar
+        config.setAllowAccurateTaskBar(true);
+        
+        //cretae data model "GanttModel" for Gantt chart, all tasks information you want to display in gantt chart component are via the model class
+        GanttModel model =new GanttModel();
+        //set start time and end time for schedule
+        model.setKickoffTime(new Time(2014,0,1));
+        model.setDeadline(new Time(2014,0,7));
+        
+        //create tasks 
+        Task task1=new Task("task 1",new Time(2014,0,1),new Time(2014,0,2));
+        //add tasks;
+        model.addTask(task1);
+        gantt.setModel(model);
         
     } 
 }

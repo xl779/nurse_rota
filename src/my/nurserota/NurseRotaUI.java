@@ -33,22 +33,73 @@ public class NurseRotaUI extends javax.swing.JFrame {
     
     //declare staffRota2
     StaffRota2 rota_solver;
+    //create a GanttChart object
     GanttChart gantt;
+    //the variable represents the number of nurses per work shifts 
+    int nurseNumberPerShift=-1;
+    //the array list used to store strings that show the operations made about the constraints
+    ArrayList<String> constraintDisplay=new ArrayList<String>();
+    //the string list used to store the 21 work shifts 
+    ArrayList<String> workshifts=new ArrayList<String>();
+    
+    //create an arraylist to store the nurses
+    private ArrayList<String> nurse_data;
+    //for the nurse work shift preference
+    int preferenceNurseIndex=-1;
+    int preferenceNurseWorkShift=-1;
+    
+    //constraints variables declaration
+    //the constraints set the work shifts range the nurse works in a week
+    int conNurseWorkMin=-1;
+    int conNurseWorkMax=-1;
+    
+    //the constraints the nurse work shift preference 
+    int conNurseID=-1;
+    int conWorkShiftNum=-1;
+    
+    //set the constraints that the break length between 2 consecutive work shifts
+    int breakLength=-1;
+    
+    //generate a new jpanel
+    javax.swing.JPanel jPanel5;
+    javax.swing.JLabel jLabel10;
+    javax.swing.JLabel jLabel20;
     /**
      * Creates new form NurseRotaUI
      */
     public NurseRotaUI() {
+        
         initComponents();
-        //create staffRota2
-        rota_solver=new StaffRota2();
-        
-       
-       
         //create the ArrayList to store the nurse data
-	nurse_data=new ArrayList();
+	nurse_data=new ArrayList<String>();
         
+        /*add the 21 work shifts to the workshifts arraylist
+         workshifts.add("Monday morning");
+         workshifts.add("Monday afternoon");
+         workshifts.add("Monday night");
+         workshifts.add("Tuesday morning");
+         workshifts.add("Tuesday afternoon");
+         workshifts.add("Tuesday night");
+         workshifts.add("Wednesday morning");
+         workshifts.add("Wednesday afternoon");
+         workshifts.add("Wednesday night");
+         workshifts.add("Thursday morning");
+         workshifts.add("Thursday afternoon");
+         workshifts.add("Thursday night");
+         workshifts.add("Friday morning");
+         workshifts.add("Friday afternoon");
+         workshifts.add("Friday night");
+         workshifts.add("Saturday morning");
+         workshifts.add("Saturday afternoon");
+         workshifts.add("Saturday night");
+         workshifts.add("Sunday morning");
+         workshifts.add("Sunday afternoon");
+         workshifts.add("Sunday night");
+         */
+       
+  
         
-        
+       
     }
 
    
@@ -73,35 +124,34 @@ public class NurseRotaUI extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jSeparator4 = new javax.swing.JSeparator();
         jPanel2 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
-        jSeparator1 = new javax.swing.JSeparator();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
-        jLabel10 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jTextField7 = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
-        jTextField8 = new javax.swing.JTextField();
         jButton4 = new javax.swing.JButton();
-        jSeparator3 = new javax.swing.JSeparator();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jTextField9 = new javax.swing.JTextField();
-        jLabel16 = new javax.swing.JLabel();
-        jTextField10 = new javax.swing.JTextField();
         jButton5 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jList2 = new javax.swing.JList();
+        jSeparator5 = new javax.swing.JSeparator();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        jTextField10 = new javax.swing.JTextField();
+        jTextField11 = new javax.swing.JTextField();
+        jButton7 = new javax.swing.JButton();
+        jSeparator6 = new javax.swing.JSeparator();
+        jComboBox1 = new javax.swing.JComboBox();
+        jComboBox3 = new javax.swing.JComboBox();
+        jSeparator1 = new javax.swing.JSeparator();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jSeparator3 = new javax.swing.JSeparator();
+        jComboBox2 = new javax.swing.JComboBox();
         jPanel3 = new javax.swing.JPanel();
         jButton6 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -190,28 +240,6 @@ public class NurseRotaUI extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Add Constriants", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 1, 12))); // NOI18N
 
-        jLabel5.setText("Add Incompatible Nurses:");
-
-        jLabel6.setText("A: nurse ID");
-
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
-            }
-        });
-
-        jLabel7.setText("B: nurse ID");
-
-        jButton2.setText("Add");
-
-        jLabel8.setText("Add Work Shift Dislike:");
-
-        jLabel9.setText("Nurse ID:");
-
-        jLabel10.setText("Work Shift:");
-
-        jButton3.setText("Add");
-
         jLabel11.setText("Add Work Shift Preference:");
 
         jLabel12.setText("Nurse ID:");
@@ -219,10 +247,15 @@ public class NurseRotaUI extends javax.swing.JFrame {
         jLabel13.setText("Work Shift:");
 
         jButton4.setText("Add");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jLabel14.setText("Set Nurse Number for A Single Work Shift:");
 
-        jLabel15.setText("Min:");
+        jLabel15.setText("Nurse Number:");
 
         jTextField9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -230,15 +263,12 @@ public class NurseRotaUI extends javax.swing.JFrame {
             }
         });
 
-        jLabel16.setText("Max:");
-
-        jTextField10.addActionListener(new java.awt.event.ActionListener() {
+        jButton5.setText("Set");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField10ActionPerformed(evt);
+                jButton5ActionPerformed(evt);
             }
         });
-
-        jButton5.setText("Set");
 
         jList2.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -247,118 +277,189 @@ public class NurseRotaUI extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(jList2);
 
+        jLabel16.setText("set the number of  work shifts a nurse works in one week: ");
+
+        jLabel17.setText("Min:");
+
+        jLabel18.setText("Max:");
+
+        jButton7.setText("Set");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
+        String[] comboList;
+        if(nurse_data==null){
+            comboList=new String[]{"none"};
+        }else{
+            comboList=new String[nurse_data.size()];
+        }
+
+        if(nurse_data!=null){
+            comboList=nurse_data.toArray(comboList);
+        }
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(comboList));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
+        //add the 21 work shifts to the workshifts arraylist
+        workshifts.add("Monday morning");
+        workshifts.add("Monday afternoon");
+        workshifts.add("Monday night");
+        workshifts.add("Tuesday morning");
+        workshifts.add("Tuesday afternoon");
+        workshifts.add("Tuesday night");
+        workshifts.add("Wednesday morning");
+        workshifts.add("Wednesday afternoon");
+        workshifts.add("Wednesday night");
+        workshifts.add("Thursday morning");
+        workshifts.add("Thursday afternoon");
+        workshifts.add("Thursday night");
+        workshifts.add("Friday morning");
+        workshifts.add("Friday afternoon");
+        workshifts.add("Friday night");
+        workshifts.add("Saturday morning");
+        workshifts.add("Saturday afternoon");
+        workshifts.add("Saturday night");
+        workshifts.add("Sunday morning");
+        workshifts.add("Sunday afternoon");
+        workshifts.add("Sunday night");
+
+        String[] comboList2;
+        comboList2=new String[workshifts.size()];
+        comboList2=workshifts.toArray(comboList2);
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel(comboList2));
+        jComboBox3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox3ActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("the break between a nurse's 2 consecutive shifts should be at least: ");
+
+        jLabel7.setText("work shifts");
+
+        jButton2.setText("set");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "2", "3", "4"}));
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSeparator1)
-            .addComponent(jSeparator2)
-            .addComponent(jSeparator3)
+            .addComponent(jSeparator5)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(jLabel12)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel13)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton4))
+                    .addComponent(jLabel14)
+                    .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 994, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel15)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton5))
+                    .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 1159, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel11)
+                            .addComponent(jLabel16)
                             .addComponent(jLabel5)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel7)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jButton2))
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel11)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(8, 8, 8)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(jLabel9)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabel10)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jButton3))
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(jLabel12)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabel13)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jButton4))))
-                            .addComponent(jLabel14)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(jLabel15)
+                                .addComponent(jLabel17)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel16)
+                                .addComponent(jLabel18)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton5)))
-                        .addGap(0, 686, Short.MAX_VALUE)))
+                                .addComponent(jButton7))
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 1063, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1042, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12)
-                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel13)
-                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jButton4)
+                    .addComponent(jLabel12)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(26, 26, 26)
                 .addComponent(jLabel14)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15)
                     .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel16)
-                    .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton5))
+                .addGap(24, 24, 24)
+                .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel16)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel17)
+                    .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel18)
+                    .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton7))
+                .addGap(23, 23, 23)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 482, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jButton2)
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(36, 36, 36)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(39, 39, 39))
         );
 
         jTabbedPane1.addTab("Add constraints", jPanel2);
@@ -406,7 +507,7 @@ public class NurseRotaUI extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 776, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -416,12 +517,195 @@ public class NurseRotaUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        //create staffRota2
+        rota_solver=new StaffRota2(nurse_data.size());
+
+        //this variable indicates whether there's a solution
+        int tag=0;
+
+        //call function to set nurseNumberPerShift;
+        if(nurseNumberPerShift!=-1){
+            rota_solver.setNurseNumberPerShift(nurseNumberPerShift);
+        }
+        //call function to set the min and max number of workshifts in a week
+        //set the constraints to the nurse roster solver
+        if(conNurseWorkMin!=-1&&conNurseWorkMax!=-1){
+            rota_solver.setWorkRangePerWeek(conNurseWorkMin,conNurseWorkMax);
+        }
+        //set the constraint that the nurse's preference to a work shift
+        if(conNurseID!=-1&&conWorkShiftNum!=-1){
+            rota_solver.setNurseWorkShiftPreference(conNurseID,conWorkShiftNum);
+        }
+        //set the constraint that the break between 2 consecutive work shifts is
+        if(breakLength!=-1){
+            rota_solver.setBreak(breakLength);
+        }
+        //set the min and max number of workshifts per week
+        //get the computer time and fetch the year and month
+        //create date
+        Calendar currentDate=new GregorianCalendar();
+        //get the year
+        int year=currentDate.get(Calendar.YEAR);
+        //get the current month
+        int month=currentDate.get(Calendar.MONTH);
+        //get the day
+        int day=currentDate.get(Calendar.DAY_OF_MONTH);
+
         // TODO add your handling code here:
-        
-        
-        
-    }//GEN-LAST:event_jTextField1ActionPerformed
+        //call staffRota2 solver to generate a solution for the nurse roster
+        //v array used to store the solution found by rota_solver
+        IntVar[] v=rota_solver.findSolution();
+        //create a mapping between (workshifts)j and the day of the work shift date shown in the gantt chart
+        int[] mapping={day+2,day+2,day+2,day+3,day+3,day+3,day+4,day+4,day+4,day+5,day+5,day+5,day+6,day+6,day+6,day+7,day+7,day+7,day+8,day+8,day+8};
+
+        //generate gantt chart
+        //construct the main class
+        gantt=new GanttChart();
+        //set time unit
+        gantt.setTimeUnit(TimeUnit.Hour);
+        //decorate the gantt chart
+        Config config=gantt.getConfig();
+        config.setWorkingTimeBackColor(Color.yellow);
+        config.setTimeUnitWidth(20);//set width for time unit
+        config.setWorkingHoursSpanOfDay(new int[]{1,3});
+        //set true if you want to show accurate task bar
+        config.setAllowAccurateTaskBar(true);
+
+        //cretae data model "GanttModel" for Gantt chart, all tasks information you want to display in gantt chart component are via the model class
+        GanttModel model =new GanttModel();
+        //set start time and end time for schedule
+        model.setKickoffTime(new Time(year,month+1,day+1,0,0));
+        model.setDeadline(new Time(year,month+1,day+9,0,0));
+
+        //create tasks
+        //use foreach loop to get all the values of the solution and create relative tasks
+        for(int b=0;b<21*(nurse_data.size());b++){
+            int p=v[b].value();
+            if(p==1){
+                Task task1=new Task("nurse "+nurse_data.get((int)(b/21)),new Time(year,month+1,mapping[(b%21)],(b%21)%3+1,0),new Time(year,month+1,mapping[(b%21)],(b%21)%3+1,59));
+                model.addTask(task1);
+                tag=1;
+            }
+        }
+
+        //set the model data for gantt chart diagram
+        gantt.setModel(model);
+        //add gantt chart to jtabbedpanel1
+
+        /*if there is no solution generate a different jpanel*/
+        jPanel5=new javax.swing.JPanel();
+        /*create a label and add it to the jPanel*/
+        jLabel10 = new javax.swing.JLabel();
+        jLabel10.setText("The solver can't find a solution based on the current constraint.");
+
+        jLabel20 = new javax.swing.JLabel();
+        jLabel20.setText("Please reduce the constraints");
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(409, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(73, 73, 73)
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(623, Short.MAX_VALUE))
+        );
+
+        if(tag!=0){
+            jTabbedPane1.addTab("Generated Roster", gantt);
+        }else{
+            jTabbedPane1.addTab("Generate Roster: no solution", jPanel5);
+
+        }
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        //set the constraint that break length between 2 consecutive work shifts
+
+        breakLength=Integer.parseInt(jComboBox2.getSelectedItem().toString());
+        //show in the constraint screen
+        constraintDisplay.add("Added constraint:");
+        //add the operation information String to constraintDisplay arraylist
+        constraintDisplay.add("the break between 2 consecutive work shifts is "+breakLength+" work shifts");
+        constraintDisplay.add(" ");
+
+        //add the constraint information to Jlist2
+        jList2.setListData(constraintDisplay.toArray());
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
+        // selected work shift index for nurse preference
+        preferenceNurseWorkShift=jComboBox3.getSelectedIndex();
+
+    }//GEN-LAST:event_jComboBox3ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        preferenceNurseIndex=jComboBox1.getSelectedIndex()+1;
+
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        //set the min and max work shifts that a single nurse works
+        conNurseWorkMin=Integer.parseInt(jTextField10.getText());
+        conNurseWorkMax=Integer.parseInt(jTextField11.getText());
+
+        //add to Arraylist constraintDisplay and show on the jList
+        constraintDisplay.add("Added constraint:");
+        constraintDisplay.add("Minimum work shifts a nurse works per week: " + conNurseWorkMin);
+        constraintDisplay.add("Maximum work shifts a nurse works per week: " + conNurseWorkMax);
+        constraintDisplay.add(" ");
+        jList2.setListData(constraintDisplay.toArray());
+
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        nurseNumberPerShift=Integer.parseInt(jTextField9.getText());
+        constraintDisplay.add("Added constraint:");
+        //add the operation information String to constraintDisplay arraylist
+        constraintDisplay.add("the number of nurses that work on a single shift: "+Integer.toString(nurseNumberPerShift));
+        constraintDisplay.add(" ");
+
+        //add the constraint information to Jlist2
+        jList2.setListData(constraintDisplay.toArray());
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jTextField9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField9ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField9ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        //add nurse preference for a work shift. the range of work shift is 0-20
+        //add the constraints to the solver
+        conNurseID=jComboBox1.getSelectedIndex()+1;
+        conWorkShiftNum=jComboBox3.getSelectedIndex();
+
+        String nurseName=jComboBox1.getSelectedItem().toString();
+        String workshift=jComboBox3.getSelectedItem().toString();
+        //show in the constraint screen
+        constraintDisplay.add("Added constraint:");
+        //add the operation information String to constraintDisplay arraylist
+        constraintDisplay.add(nurseName+" prefer to work in "+workshift);
+        constraintDisplay.add(" ");
+
+        //add the constraint information to Jlist2
+        jList2.setListData(constraintDisplay.toArray());
+
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
@@ -429,79 +713,34 @@ public class NurseRotaUI extends javax.swing.JFrame {
         final String nurse_id=jTextField1.getText();
         final String nurse_name=jTextField2.getText();
         //String[] newdata = {"Nurse ID: " + nurse_id + " Name: "+ nurse_name};
-        nurse_data.add("Nurse ID: " + nurse_id + " Name: "+ nurse_name);
+        nurse_data.add("Nurse ID:    " + nurse_id + "                  Name:    "+ nurse_name);
+
         jList1.setListData(nurse_data.toArray());
+
+        //  rota_solver.specifyNurseNumber(nurse_data.size());
+
+        //update the content of the dropdown list of constrains
+        // TODO add your handling code here:
+        String[] comboList;
+        if(nurse_data==null){
+            comboList=new String[]{"none"};
+        }else{
+            comboList=new String[nurse_data.size()];
+        }
+
+        if(nurse_data!=null){
+            comboList=nurse_data.toArray(comboList);
+        }
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(comboList));
+
+        jPanel2.repaint();
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jTextField10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField10ActionPerformed
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField10ActionPerformed
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
-
-    private void jTextField9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField9ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField9ActionPerformed
-
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        
-        
-        //get the computer time and fetch the year and month  
-        //create date 
-        Calendar currentDate=new GregorianCalendar();
-        //get the year 
-        int year=currentDate.get(Calendar.YEAR);
-        //get the current month
-        int month=currentDate.get(Calendar.MONTH);
-        //get the day
-        int day=currentDate.get(Calendar.DAY_OF_MONTH);
-        
-        // TODO add your handling code here:
-        //call staffRota2 solver to generate a solution for the nurse roster 
-        //v array used to store the solution found by rota_solver
-        IntVar[] v=rota_solver.findSolution();
-        //create a mapping between (workshifts)j and the day of the work shift date shown in the gantt chart
-        int[] mapping={day+2,day+2,day+2,day+3,day+3,day+3,day+4,day+4,day+4,day+5,day+5,day+5,day+6,day+6,day+6,day+7,day+7,day+7,day+8,day+8,day+8};
-        
-      
-        //generate gantt chart 
-        //construct the main class 
-        gantt=new GanttChart();
-        //set time unit 
-        gantt.setTimeUnit(TimeUnit.Hour);
-        //decorate the gantt chart 
-        Config config=gantt.getConfig();
-        config.setWorkingTimeBackColor(Color.yellow);
-        config.setTimeUnitWidth(20);//set width for time unit 
-        config.setWorkingHoursSpanOfDay(new int[]{1,3});
-        //set true if you want to show accurate task bar
-        config.setAllowAccurateTaskBar(true);
-        
-        //cretae data model "GanttModel" for Gantt chart, all tasks information you want to display in gantt chart component are via the model class
-        GanttModel model =new GanttModel();
-        //set start time and end time for schedule
-        model.setKickoffTime(new Time(year,month+1,day+1,0,0));
-        model.setDeadline(new Time(year,month+1,day+9,0,0));
-        
-        //create tasks 
-        //use foreach loop to get all the values of the solution and create relative tasks
-        for(int b=0;b<210;b++){
-            int p=v[b].value();
-            if(p==1){
-                Task task1=new Task("nurse "+(int)(b/21+1),new Time(year,month+1,mapping[(b%21)],(b%21)%3+1,0),new Time(year,month+1,mapping[(b%21)],(b%21)%3+1,59));
-                model.addTask(task1);
-            }
-        }
-        
-        //set the model data for gantt chart diagram  
-        gantt.setModel(model);
-	//add gantt chart to jtabbedpanel1
-        
-        
-         jTabbedPane1.addTab("Generated Roster", gantt);
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -543,26 +782,28 @@ public class NurseRotaUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JComboBox jComboBox2;
+    private javax.swing.JComboBox jComboBox3;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JList jList1;
     private javax.swing.JList jList2;
     private javax.swing.JPanel jPanel1;
@@ -574,21 +815,17 @@ public class NurseRotaUI extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JSeparator jSeparator5;
+    private javax.swing.JSeparator jSeparator6;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
+    private javax.swing.JTextField jTextField11;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
     // End of variables declaration//GEN-END:variables
 	
-	//create an arraylist to store the nurses
-	private ArrayList nurse_data;
+	
     
 
 }
