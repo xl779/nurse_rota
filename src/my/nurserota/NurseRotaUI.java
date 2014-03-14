@@ -181,7 +181,7 @@ public class NurseRotaUI extends javax.swing.JFrame {
         });
 
         jList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            String[] strings = {"no nurse data" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
@@ -211,7 +211,7 @@ public class NurseRotaUI extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(jButton1))
                                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 747, Short.MAX_VALUE)))
+                        .addGap(0, 794, Short.MAX_VALUE)))
                 .addContainerGap())
             .addComponent(jSeparator4)
         );
@@ -271,7 +271,7 @@ public class NurseRotaUI extends javax.swing.JFrame {
         });
 
         jList2.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            String[] strings = { "no constraints added" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
@@ -478,7 +478,7 @@ public class NurseRotaUI extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(881, Short.MAX_VALUE))
+                .addContainerGap(928, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -500,10 +500,10 @@ public class NurseRotaUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(922, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1074, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -576,7 +576,7 @@ public class NurseRotaUI extends javax.swing.JFrame {
         GanttModel model =new GanttModel();
         //set start time and end time for schedule
         model.setKickoffTime(new Time(year,month+1,day+1,0,0));
-        model.setDeadline(new Time(year,month+1,day+9,0,0));
+        model.setDeadline(new Time(year,month+1,day+10,0,0));
 
         //create tasks
         //use foreach loop to get all the values of the solution and create relative tasks
@@ -713,7 +713,7 @@ public class NurseRotaUI extends javax.swing.JFrame {
         final String nurse_id=jTextField1.getText();
         final String nurse_name=jTextField2.getText();
         //String[] newdata = {"Nurse ID: " + nurse_id + " Name: "+ nurse_name};
-        nurse_data.add("Nurse ID:    " + nurse_id + "                  Name:    "+ nurse_name);
+        nurse_data.add("Nurse ID:    " + nurse_id + "     Name:    "+ nurse_name);
 
         jList1.setListData(nurse_data.toArray());
 
@@ -775,9 +775,7 @@ public class NurseRotaUI extends javax.swing.JFrame {
                 new NurseRotaUI().setVisible(true);
             }
         });
-        
-        
-        
+   
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

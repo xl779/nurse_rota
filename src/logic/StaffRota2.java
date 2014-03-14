@@ -89,8 +89,6 @@ public class StaffRota2{
        //3. the time between anyone's 3 consecutive shifts
        //4. the time between anyone's 4 consecutive shifts
      public void setBreak(int breakNum){   
-        
-        
          if(breakNum==2){    
          /*set the break time between 2 consecutive workshifts is 4 work shifts*/
          for(int m=0;m<i;m++){
@@ -112,8 +110,6 @@ public class StaffRota2{
            }
          }else if(breakNum==3){
               /*set the break time between 2 consecutive workshifts is 3 work shifts*/
-             
-             
              for(int m=0;m<i;m++){
             //sum1 indicates <=1
             
@@ -131,11 +127,6 @@ public class StaffRota2{
               
             }
            }
-         
-         
-         
-         
-         
          }else{
              /*set the break time between 2 consecutive workshifts is 4 work shifts*/
              
@@ -156,26 +147,14 @@ public class StaffRota2{
               
             }
            }
-         
-         
-         
-         
-         
-         
-         
          }
-         
-         
-       
      }
-       
-    
-    //the function to call to specify the nurse numbers to i
+ //the function to call to specify the nurse numbers to i
  /*   public void specifyNurseNumber(int nurseNumber){
         i=nurseNumber;
     
     }
-   */ 
+ */ 
     
     //the function to set the nurse number that each work shift requires
     public void setNurseNumberPerShift(int nurseNumber){
@@ -185,7 +164,6 @@ public class StaffRota2{
          * so it's sum(v[i][1]) for all i = 2
          *
          */ 
-        
         
         //impose the constraints looply
         //p indicates the work shift 
